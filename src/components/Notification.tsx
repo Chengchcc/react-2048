@@ -1,20 +1,25 @@
 import { useCallback, useContext, useEffect, useState } from "react"
+import { GameState } from "../composables/gameState"
 import { GameContext } from "../hooks/useGameContext"
 
 export function Notification() {
 
     const gameState =  useContext(GameContext)
 
-    const [gameStatus, setGameStatus] = useState('')
+    const [gameStatus, setGameStatus] = useState<GameState['gamestatus']>('playing')
 
 
     const onRetry = useCallback(()=> {
-        gameState.retry()
+        if(gameState.gamestatus == 'win'){
+            gameState.gamestatus ='continue'
+            setGameStatus(gameState.gamestatus)
+        }else if(gameState.gamestatus === 'lost') {
+            gameState.retry()
+        }
     }, [gameState])
 
     useEffect(()=> {
         const unregister = gameState.selfChannel.register('notification', ()=> {
-            console.log('refresh', gameState.gamestatus)
             setGameStatus(gameState.gamestatus)
         })
         return ()=> {

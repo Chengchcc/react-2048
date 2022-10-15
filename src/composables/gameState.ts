@@ -14,7 +14,7 @@ const Direction = {
 
 type DirectionKey = keyof typeof Direction
 
-type GameStatus = 'win' | 'lost' | 'playing'
+type GameStatus = 'win' | 'lost' | 'playing' | 'continue'
 
 export class GameState {
   private tiles: Tile[][]
@@ -217,7 +217,9 @@ export class GameState {
 
     if(Math.max(...this.tilesFlatted.map(tile=> tile.value)) == 2048 ){
       // max is 2048
-      this.gamestatus = 'win'
+      if(this.gamestatus === 'playing') {
+        this.gamestatus = 'win'
+      }
     }
 
     this.refresh(modified)
