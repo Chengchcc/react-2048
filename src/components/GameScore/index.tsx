@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react"
 import { GameContext } from "../../hooks/useGameContext"
-import { useLocalStorage } from "../../hooks/useLocalstorage"
+import { useLocalStorage } from "../../hooks/useLocalStorage"
 import { ScoreBoard } from "./ScoreBoard"
 
 export function GameScore() {
