@@ -5,26 +5,32 @@ import { Tile } from './Tile'
 
 export function Game() {
   const gameState = useContext(GameContext)
-  const { rows, cols, gridSize } = gameState
+  const { gridSize } = gameState
+  const [rows, setRows] = useState(()=> {
+    return gameState.rows
+  })
+
+  const [cols, setCols] = useState(()=> {
+    return  gameState.cols
+  })
   const [tiles, setTiles] = useState<TileState[]>(() => {
     return gameState?.tileStates
   })
 
   useEffect(() => {
-    const unregister = gameState.onRefresh((modified) => {
+    return gameState.onRefresh((modified) => {
       if (modified) {
         setTiles([...gameState.tileStates])
+        setCols(gameState.cols)
+        setRows(gameState.rows)
       }
     })
-    return () => {
-      unregister()
-    }
-  }, [tiles])
+  }, [tiles, rows, cols])
 
   const tilesEl = useMemo(() => {
     return Array.from({ length: rows }, (_, r) => {
       return Array.from({ length: cols }, (_, c) => (
-        <div key={r * rows + c} className="bg-secondary" />
+        <div key={r +'_'+ c} className="bg-secondary" />
       ))
     }).flat()
   }, [rows, cols])

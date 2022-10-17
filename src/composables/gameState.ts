@@ -21,9 +21,9 @@ export class GameState {
 
   gamestatus: GameStatus = 'playing'
 
-  cols = 4
+  cols = 8
 
-  rows = 4
+  rows = 8
 
   get tilesFlatted() {
     return this.tiles.flat()
